@@ -16,16 +16,30 @@ const demoUsers = [
 },
     {
     id: 3,
-    name: "ada",
-    username: "ada"
+    name: "adanna",
+    username: "adanna"
 },
+    {
+    id: 4,
+    name: "Jack",
+    username: "Jack"
+},
+    {
+    id: 5,
+    name: "okey",
+    username: "Okey"
+}
 ]
-app.get("/home.html", (req, res)=>{
+app.get("/", (req, res)=>{
     res.send("welcome")
 })
 
 app.get("/api/users", (req,res)=>{
-    res.status(200).send(demoUsers)
+    const {filter, value} = req.query;
+    console.log(filter, value);
+    if(!filter || !value) return res.status(200).send(demoUsers);
+
+    if(filter && value) return res.send(demoUsers.filter(user => user[ filter].includes(value)))
 })
 
 app.get("/api/users/:id", (req,res)=>{
