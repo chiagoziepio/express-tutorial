@@ -3,6 +3,8 @@ const app = express();
 
 const PORT = process.env.PORT || 5000
 
+app.use(express.json())
+
 const demoUsers = [
     {
     id: 1,
@@ -40,6 +42,19 @@ app.get("/api/users", (req,res)=>{
     if(!filter || !value) return res.status(200).send(demoUsers);
 
     if(filter && value) return res.send(demoUsers.filter(user => user[ filter].includes(value)))
+})
+app.post("/api/users", (req,res)=>{
+    console.log(req.body);
+    const { name, username } = req.body
+    const newUser = {
+        id: demoUsers.length ? demoUsers[demoUsers.length - 1].id + 1 : 1,
+       name,
+       username
+
+    }
+    demoUsers.push(newUser)
+
+    res.send(demoUsers).status(201)
 })
 
 app.get("/api/users/:id", (req,res)=>{
