@@ -57,6 +57,22 @@ app.post("/api/users", (req,res)=>{
     res.send(demoUsers).status(201)
 })
 
+app.put("/api/users/:id", (req,res)=>{
+    const{ body, params} = req 
+    const {id} = params;
+    const {name, username} = body
+
+    const parsedId = parseInt(id);
+    if(isNaN(parsedId)) res.sendStatus(400);
+
+    const finduser = demoUsers.findIndex(user => user.id === parsedId);
+    if(finduser === -1) res.status(400).send({msg: "no user found"});
+    console.log(finduser);
+
+    demoUsers[finduser] = {id:parsedId , name, username};
+    res.send(demoUsers)
+})
+
 app.get("/api/users/:id", (req,res)=>{
     
     const parsedid = parseInt(req.params.id)
