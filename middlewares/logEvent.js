@@ -20,7 +20,7 @@ const logAction = async(msg, logFile)=>{
 }
 
 const logger = (req,res,next)=>{
-    logAction(`${reg.method}\t${req.headers.origin}\t${req.url}`, "eventsLog.txt");
+    logAction(`${req.method}\t${req.headers.origin}\t${req.url}`, "eventsLog.txt");
     next()
 }
 

@@ -1,18 +1,30 @@
 const express = require("express");
 const app = express();
 
-const PORT = process.env.PORT || 5000
-
+const  logger = require("./middlewares/logEvent")
 const demoUsers = require("./model/userdb");
-
-app.use(express.json());
 const cookieParser = require("cookie-parser");
+const session = require("express-session")
+
+const PORT = process.env.PORT || 5000
+app.use(express.json());
 
 app.use(cookieParser())
+app.use(session({
+    secret: "paddy naaa",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: 60000 * 60
+    }
+
+}))
+app.use(logger)
 
 // for home page
 app.use("/", require("./routes/home"))
-
+//for authenticating loging in
+app.use("/auth", require("./routes/auth"))
 // for products routes
 app.use("/api/products", require("./routes/api/product"))
 // for get all and post routes
