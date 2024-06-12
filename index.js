@@ -25,6 +25,10 @@ app.use(logger)
 app.use("/", require("./routes/home"))
 //for authenticating loging in
 app.use("/auth", require("./routes/auth"))
+// showing if logged in
+app.use("/auth/status", require("./routes/status"));
+// showing cart if logged in
+app.use("/api/cart", require("./routes/api/cart"))
 // for products routes
 app.use("/api/products", require("./routes/api/product"))
 // for get all and post routes
