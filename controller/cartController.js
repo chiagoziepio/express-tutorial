@@ -15,7 +15,7 @@ const handlePostCart =(req, res)=>{
 
 const handleGetCart = (req, res)=>{
     if(!req.session.user)return res.status(401).send({msg: "unauthorized"});
-    if(!req.session.cart) return res.status(400).send({msg: "the cart is availabe"});
+    if(!req.session.cart) return res.status(200).send({msg: "the cart is not empty"});
     res.status(200).send(req.session.cart)
 }
 

@@ -6,7 +6,7 @@ const { format } = require("date-fns")
 
 const logAction = async(msg, logFile)=>{
  const dateTime = format(new Date(), 'yyyyMMdd\tHH:mm:ss');
- const logItem = `${dateTime}\t${uuid()}${msg}\n`;
+ const logItem = `${dateTime}\t${uuid()}${msg}\t\n`;
 
  try {
     if(!fs.existsSync(path.join(__dirname, "..", "log"))){
