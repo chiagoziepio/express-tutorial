@@ -1,7 +1,8 @@
 const passport = require("passport");
 const { Strategy } = require("passport-local");
 const demoUsers = require("../model/userdb");
-const user = require("../mongoose/schemas/userdb")
+const user = require("../mongoose/schemas/userdb");
+const bcrypt = require("bcryptjs")
 
 passport.serializeUser((user, done)=>{
     console.log("inside the serializer");
@@ -27,7 +28,8 @@ passport.deserializeUser(async(_id, done)=>{
         try {
             const findUser = await user.findOne({username})
             if(!findUser) throw new Error("user not found");
-            if(findUser.password !== password) throw new Error("username or password wrong");
+          const checkedPwd =  await bcrypt.compare(password,findUser.password )
+            if(!checkedPwd) throw new Error("username or password wrong");
 
             done(null, findUser)
         } catch (error) {

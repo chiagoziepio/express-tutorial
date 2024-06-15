@@ -1,5 +1,6 @@
 const demoUsers = require("../model/userdb");
 const user = require("../mongoose/schemas/userdb") 
+const bcrypt = require("bcryptjs")
 
 const handleGetAllUser = (async(req,res)=>{
     const {filter, value} = req.query;
@@ -16,11 +17,12 @@ const handlePostNewUser =  (async(req,res)=>{
     console.log(req.body);
     const { name, username, password } = req.body
     if(!name || !username || !password) return res.status(400).send({msg:"no blank should be left empty"})
+    const hashPwd =await bcrypt.hash(password, 10)
     const newUser = new user({
         
        name,
        username,
-       password
+       password: hashPwd
 
     })
     try {

@@ -6,9 +6,12 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    username: mongoose.Schema.Types.String,
+    username:{
+        type: mongoose.Schema.Types.String,
+        required: true
+    },
     password:{
-        type: mongoose.Schema.Types.Number,
+        type: mongoose.Schema.Types.String,
         required: true
     }
 })
