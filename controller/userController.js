@@ -1,12 +1,16 @@
 const demoUsers = require("../model/userdb");
 const user = require("../mongoose/schemas/userdb") 
 
-const handleGetAllUser = ((req,res)=>{
+const handleGetAllUser = (async(req,res)=>{
     const {filter, value} = req.query;
     console.log(filter, value);
-    if(!filter || !value) return res.status(200).send(demoUsers);
-
-    if(filter && value) return res.send(demoUsers.filter(user => user[ filter].includes(value)))
+    const userdb = await user.find()
+    if(!filter || !value) return res.status(200).send(userdb);
+    /* find(user => user[ filter].includes(value)) */
+    if(filter && value) {
+       await user.find({filter: value})
+        return res.send(userdb)
+    }
 })
 const handlePostNewUser =  (async(req,res)=>{
     console.log(req.body);
@@ -45,28 +49,29 @@ const handlePut =((req,res)=>{
     demoUsers[finduser] = {id:parsedId , name, username};
     res.send(demoUsers)
 })
-const handlePatch = ((req,res)=>{
+const handlePatch = (async(req,res)=>{
     const{ body, params} = req 
     const {id} = params;
     
+    const the_user = await user.findByIdAndUpdate(id, body,{new:true})
+    /* const parsedId = parseInt(id);
+    if(isNaN(parsedId)) res.sendStatus(400); 
 
-    const parsedId = parseInt(id);
-    if(isNaN(parsedId)) res.sendStatus(400);
-
-    const finduser = demoUsers.findIndex(user => user.id === parsedId);
-    if(finduser === -1) res.status(400).send({msg: "no user found"});
-    console.log(finduser);
-    demoUsers[finduser] = {...demoUsers[finduser], ...body}
-    res.status(204).send(demoUsers)
+    const finduser = demoUsers.findIndex(user => user.id === parsedId);*/
+    if(!the_user) res.status(400).send({msg: "no user found"});
+    /* console.log(finduser);
+    demoUsers[finduser] = {...demoUsers[finduser], ...body} */
+    res.status(204).send(the_user)
 });
 
-const handleGetAUser = ((req,res)=>{
+const handleGetAUser = (async(req,res)=>{
     
-    const parsedid = parseInt(req.params.id)
-    if(isNaN(parsedid)) return res.send({mesg:` ${req.params.id} is not valid` }).status(400)
-    const theUser = demoUsers.find( user => user.id === parsedid)
-    if(!theUser) return res.sendStatus(400)
-    res.send(theUser)
+    const id = req.params.id;
+    const the_User = await user.findById(id);
+    /* if(isNaN(parsedid)) return res.send({mesg:` ${req.params.id} is not valid` }).status(400)
+    const theUser = demoUsers.find( user => user.id === parsedid) */
+    if(!the_User) return res.status(400).send({msg: "user not found"});
+    res.send(the_User)
 })
 
 module.exports = {

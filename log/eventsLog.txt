@@ -102,3 +102,10 @@
 20240615	08:20:04	20fbf8e5-76c4-4dd5-9d06-b1b8f07bd1bdGET	undefined	/api/auth/status	
 20240615	08:29:28	627e3fc3-b42b-4cf3-a574-4cda8732c644POST	undefined	/api/auth	
 20240615	08:29:45	d3e18714-b39f-4877-a461-9f41bd76b198GET	undefined	/api/auth/status	
+20240615	09:13:32	98486a3a-1ad6-4d15-950b-813f61cdeff6GET	undefined	/api/users	
+20240615	09:14:36	637a9510-bc33-4ca0-afa3-7b3d45c41b30GET	undefined	/api/users	
+20240615	09:28:23	b4e05487-29a7-4ec6-9f20-00104f69aac7GET	undefined	/api/users?filter=username&value=c	
+20240615	09:38:05	264f83ef-6ff1-4a4f-807c-c23a2874b625GET	undefined	/api/users?filter=username&value=c	
+20240615	10:15:13	cb880910-ac63-4ac6-ac20-47ae0c737b23GET	undefined	/api/users/666d984b1b3049fc334c7132	
+20240615	10:26:25	5559a1fb-dcbb-459d-98e7-6a9bac9adad6PATCH	undefined	/api/users/666d984b1b3049fc334c7132	
+20240615	10:27:26	2658dc67-4a04-4e93-b449-e852f207a21cGET	undefined	/api/users	
