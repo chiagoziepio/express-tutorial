@@ -1,4 +1,5 @@
 const demoUsers = require("../model/userdb");
+const user = require("../mongoose/schemas/userdb") 
 
 const handleGetAllUser = ((req,res)=>{
     const {filter, value} = req.query;
@@ -7,18 +8,26 @@ const handleGetAllUser = ((req,res)=>{
 
     if(filter && value) return res.send(demoUsers.filter(user => user[ filter].includes(value)))
 })
-const handlePostNewUser = ((req,res)=>{
+const handlePostNewUser =  (async(req,res)=>{
     console.log(req.body);
-    const { name, username } = req.body
-    const newUser = {
-        id: demoUsers.length ? demoUsers[demoUsers.length - 1].id + 1 : 1,
+    const { name, username, password } = req.body
+    if(!name || !username || !password) return res.status(400).send({msg:"no blank should be left empty"})
+    const newUser = new user({
+        
        name,
-       username
+       username,
+       password
 
+    })
+    try {
+        
+        const savedUser = await newUser.save()
+    
+       return res.status(201).send(savedUser)
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({msg: "bad request"})
     }
-    demoUsers.push(newUser)
-
-    res.send(demoUsers).status(201)
 });
 
 const handlePut =((req,res)=>{

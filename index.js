@@ -6,10 +6,21 @@ const demoUsers = require("./model/userdb");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
-
-
+const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000
 app.use(express.json());
+
+mongoose.connect("mongodb://0.0.0.0/express-users")
+const connc = mongoose.connection
+connc.once('open',()=>{
+    console.log('connected to database');
+});
+connc.on('error',(err)=>{
+    console.log(`database error:${err}`);
+    process.exit()
+})
+    /* .then(()=> console.log("connected to a database"))
+    .catch(err => console.log(err)) */
 
 app.use(cookieParser())
 app.use(session({

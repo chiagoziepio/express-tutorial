@@ -1,17 +1,18 @@
 const passport = require("passport");
 const { Strategy } = require("passport-local");
-const demoUsers = require("../model/userdb")
+const demoUsers = require("../model/userdb");
+const user = require("../mongoose/schemas/userdb")
 
 passport.serializeUser((user, done)=>{
     console.log("inside the serializer");
     console.log(user);
-    done(null, user.id)
+    done(null, user._id)
 })
-passport.deserializeUser((id, done)=>{
+passport.deserializeUser(async(_id, done)=>{
     console.log("inside the Deserializer");
-    console.log(`deseralizing user ${id}`);
+    console.log(`deseralizing user ${_id}`);
  try {
-    const findUser = demoUsers.find(user => user.id === id);
+    const findUser = await user.findById(_id)
     if(!findUser) throw new Error("user not found");
     done(null, findUser)
  } catch (error) {
@@ -20,11 +21,11 @@ passport.deserializeUser((id, done)=>{
 })
 
  const passportUse = passport.use(
-    new Strategy((username, password, done)=>{
+    new Strategy( async(username, password, done)=>{
         console.log(`username: ${username}`);
         console.log(`password: ${password}`);
         try {
-            const findUser = demoUsers.find(user => user.username === username);
+            const findUser = await user.findOne({username})
             if(!findUser) throw new Error("user not found");
             if(findUser.password !== password) throw new Error("username or password wrong");
 

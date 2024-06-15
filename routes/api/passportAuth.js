@@ -3,6 +3,7 @@ const router = express.Router();
 const passportUse = require("../../middlewares/local-strategies")
 
 router.post("/", passportUse.authenticate("local"),(req,res)=>{
+    console.log(`form auth:${req.user}`)
     res.sendStatus(200)
 });
 
